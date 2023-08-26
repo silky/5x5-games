@@ -1,0 +1,13 @@
+button {
+  font-family:   monospace;
+  margin:        10px;
+  font-size:     20px;
+  padding:       10px;
+  padding-left:  15px;
+  padding-right: 15px;
+  border:        solid 1px black;
+}
+
+button.active {
+  background: lightskyblue;
+}
