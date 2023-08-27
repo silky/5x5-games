@@ -1,5 +1,9 @@
 module Main exposing (main)
 
+
+-- TODO:
+--  - [ ] Make it an option to wrap the boundaries
+
 import Browser
 import Browser.Navigation as Nav
 import Types exposing
@@ -74,11 +78,29 @@ update msg model =
     SomeNavAction a -> navUpdate model a
     ToggleState i j ->
       let
-          nbhrs = [ (0, 0), (-1, 0), (0, -1), (1, 0), (0, 1) ]
-          ss = List.foldl f model.state nbhrs
-          f (dx, dy) = toggleCell (i + dx) (j + dy)
+          -- ss = lightsOutToggle i j model.state
+          ss = galaToggle i j model.state
           newModel = { model | state = ss }
       in ( newModel, Cmd.none )
+
+
+galaToggle i j s =
+  -- The numbers indicate something about the colour. See the css.
+  let nbhrs = [ ((0, 0), 1), ((-1, 0), 2), ((0, -1), 3), ((1, 0), 4), ((0, 1), 5)]
+      f ((dx, dy), n) = galaToggleCell (i + dx) (j + dy) n
+  in  List.foldl f s nbhrs
+
+galaToggleCell : Int -> Int -> Int -> Board Int -> Board Int
+galaToggleCell i j n b =
+  let r = Maybe.withDefault (Array.initialize 5 (\_ -> 0)) (Array.get i b)
+      c = Array.indexedMap (\k v -> if k == j then n else v) r
+      s = Array.set i c b
+  in  s
+
+lightsOutToggle i j s =
+  let nbhrs = [ (0, 0), (-1, 0), (0, -1), (1, 0), (0, 1) ]
+      f (dx, dy) = toggleCell (i + dx) (j + dy)
+  in  List.foldl f s nbhrs
 
 
 toggleCell : Int -> Int -> Board Int -> Board Int
@@ -95,7 +117,7 @@ viewBody model =
       nbsp = String.fromChar '\u{00A0}'
       mkRow i cells = div [] <| Array.toList <| Array.indexedMap (mkCell i) cells
       mkCell i j cell =
-        let c = if cell == 0 then "" else "active"
+        let c = if cell == 0 then "" else ("active-" ++ String.fromInt cell)
         in
         button
           [ onClick <| ToggleState i j

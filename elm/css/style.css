@@ -1,16 +1,35 @@
 button {
-  font-family:   monospace;
-  margin:        10px;
-  font-size:     40px;
-  padding:       20px;
-  width:         100px;
-  height:        100px;
-  border:        solid 1px white;
-  border-radius: 10px;
-  box-shadow:    4.8px 9.6px 9.6px hsl(0deg 0% 0% / 0.35);
+  font-family:         monospace;
+  margin:              10px;
+  font-size:           40px;
+  padding:             20px;
+  width:               100px;
+  height:              100px;
+  border:              solid 1px white;
+  border-radius:       10px;
+  box-shadow:          4.8px 9.6px 9.6px hsl(0deg 0% 0% / 0.35);
+  transition-property: background, box-shadow;
+  transition-duration: 0.1s;
+  transition-delay:    0s;
 }
 
 button.active {
   background: lightskyblue;
-  box-shadow: 4.8px 9.6px 9.6px rgba(2,248,255,0.3);
+  box-shadow: 3.8px 9.6px 9.6px rgba(2,248,255,0.3);
+}
+
+button.active-1 {
+  background: lightskyblue;
+}
+button.active-2 {
+  background: coral;
+}
+button.active-3 {
+  background: lavender;
+}
+button.active-4 {
+  background: moccasin;
+}
+button.active-5 {
+  background: paleturquoise;
 }
